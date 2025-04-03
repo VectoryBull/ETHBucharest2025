@@ -8,11 +8,11 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children, type }: DashboardLayoutProps) {
   const clientMenuItems = [
-    { label: "Dashboard", href: "/app", icon: "📊" },
-    { label: "New Request", href: "/app/requests/new", icon: "📦" },
-    { label: "My Requests", href: "/app/requests", icon: "📋" },
-    { label: "Track Shipments", href: "/app/track", icon: "🚚" },
-    { label: "Settings", href: "/app/settings", icon: "⚙️" },
+    { label: "Dashboard", href: "/client", icon: "📊" },
+    { label: "New Request", href: "/client/requests/new", icon: "📦" },
+    { label: "My Requests", href: "/client/requests", icon: "📋" },
+    { label: "Track Shipments", href: "/client/track", icon: "🚚" },
+    { label: "Settings", href: "/client/settings", icon: "⚙️" },
   ];
 
   const deliveryMenuItems = [
@@ -26,7 +26,7 @@ export default function DashboardLayout({ children, type }: DashboardLayoutProps
   const menuItems = type === 'client' ? clientMenuItems : deliveryMenuItems;
   const portalName = type === 'client' ? "Client Portal" : "Delivery Portal";
   const actionButton = type === 'client'
-    ? { text: "New Request", href: "/app/request/new" }
+    ? { text: "New Request", href: "/client/requests/new" }
     : { text: "View Requests", href: "/delivery" };
 
   return (

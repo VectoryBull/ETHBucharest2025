@@ -55,7 +55,7 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center">
             <Link
-              href="/app"
+              href="/client"
               className="px-8 py-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors font-semibold"
             >
               Ship Now

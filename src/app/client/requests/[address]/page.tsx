@@ -1,28 +1,21 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import Link from "next/link";
+import { Request } from "@/types/request";
+import { apiService } from "@/services/api";
+
 
 export default async function RequestDetail({ params }: any) {
-    // In a real app, fetch this data based on params.id
-    // You would typically await some data here
-    const request = {
-        id: params.id,
-        type: "Vehicle",
-        status: "Pending",
-        pickup: "New York, NY",
-        delivery: "Los Angeles, CA",
-        weight: "2500kg",
-        temperature: "15-25°C",
-        deadline: "2024-02-15",
-        payment: "$2500",
-        created: "2024-02-01",
-        lastUpdated: "2024-02-02",
-        details: "Fragile equipment requiring careful handling",
-        requirements: [
-            "Temperature controlled",
-            "No direct sunlight",
-            "Shock monitoring"
-        ]
-    };
+    const request = await apiService.getRequest(params.address);
+
+    if (!request) {
+        return (
+            <DashboardLayout type="client">
+                <div className="p-6">
+                    <div className="text-red-500">Request not found</div>
+                </div>
+            </DashboardLayout>
+        );
+    }
 
     return (
         <DashboardLayout type="client">
@@ -30,14 +23,18 @@ export default async function RequestDetail({ params }: any) {
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-4">
                         <Link
-                            href="/app/requests"
+                            href="/client/requests"
                             className="text-gray-400 hover:text-white"
                         >
                             ← Back to Requests
                         </Link>
-                        <h1 className="text-2xl font-semibold">Request {request.id}</h1>
+                        <h1 className="text-2xl font-semibold">Request {request.address.slice(0, 6)}...{request.address.slice(-4)}</h1>
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-yellow-500 text-sm">
+                    <span className={`px-3 py-1 rounded-full text-xs ${request.status === 'Pending' ? 'bg-yellow-500' :
+                        request.status === 'Accepted' ? 'bg-green-500' :
+                            request.status === 'In Transit' ? 'bg-blue-500' :
+                                'bg-gray-500'
+                        }`}>
                         {request.status}
                     </span>
                 </div>
@@ -86,21 +83,7 @@ export default async function RequestDetail({ params }: any) {
                     <div className="space-y-6">
                         <div className="bg-gray-900 rounded-lg p-6 space-y-4">
                             <h2 className="text-xl font-semibold">Payment</h2>
-                            <div className="text-2xl text-indigo-400">{request.payment}</div>
-                        </div>
-
-                        <div className="bg-gray-900 rounded-lg p-6 space-y-4">
-                            <h2 className="text-xl font-semibold">Requirements</h2>
-                            <ul className="list-disc list-inside space-y-2">
-                                {request.requirements.map((req) => (
-                                    <li key={req} className="text-gray-400">{req}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="bg-gray-900 rounded-lg p-6 space-y-4">
-                            <h2 className="text-xl font-semibold">Additional Details</h2>
-                            <p className="text-gray-400">{request.details}</p>
+                            <div className="text-2xl text-indigo-400">{request.amount}</div>
                         </div>
 
                         <div className="bg-gray-900 rounded-lg p-6 space-y-4">
@@ -108,11 +91,11 @@ export default async function RequestDetail({ params }: any) {
                             <div className="space-y-2">
                                 <div>
                                     <p className="text-gray-400">Created</p>
-                                    <p>{request.created}</p>
+                                    <p>{new Date(request.created).toLocaleString()}</p>
                                 </div>
                                 <div>
                                     <p className="text-gray-400">Last Updated</p>
-                                    <p>{request.lastUpdated}</p>
+                                    <p>{new Date(request.lastUpdated).toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
