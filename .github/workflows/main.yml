@@ -29,11 +29,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /root/Project/front-end  # Change to your project's directory
+            cd /root/Project/ETHBucharest2025 # Change to your project's directory
             git pull origin main  # Pull latest changes
             pnpm install --frozen-lockfile  # Install dependencies
             pnpm build  # Build the Next.js app
-            pm2 restart eth-vienna || pm2 start pnpm --name "eth-vienna" -- start
+            pm2 restart vector || pm2 start pnpm --name "vector" -- start -p 8585
       - name: Notify the commit on Telegram
         uses: EverythingSuckz/github-telegram-notify@main
         with:
