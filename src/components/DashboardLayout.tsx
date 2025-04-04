@@ -1,5 +1,8 @@
+'use client';
+
 import Link from "next/link";
 import { ReactNode } from "react";
+import WalletConnect from './WalletConnect';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -7,6 +10,7 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children, type }: DashboardLayoutProps) {
+
   const clientMenuItems = [
     { label: "Dashboard", href: "/client", icon: "📊" },
     { label: "New Request", href: "/client/requests/new", icon: "📦" },
@@ -66,6 +70,9 @@ export default function DashboardLayout({ children, type }: DashboardLayoutProps
           ))}
         </nav>
 
+        <div className="flex items-center gap-4">
+          <WalletConnect />
+        </div>
         <div className="pt-4 border-t border-gray-800">
           <Link href="/" className="text-sm text-gray-400 hover:text-white">
             Switch Portal
