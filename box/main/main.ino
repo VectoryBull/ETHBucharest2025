@@ -13,30 +13,37 @@
 
 // Global state variable
 int state = LED_INITIAL;
+unsigned long lastConnectivityCheck = 0;
+const unsigned long connectivityCheckInterval = 30000; // 30 seconds
 
 void setup() {
   Serial.begin(9600);
-  
+
   // Initialize components
   initializeLEDs();
   initializeSensors();
   initializeBuffer();
-  
+
   // Connect to WiFi
   state = LED_CONNECTING;
   updateLED(state);
   connectWiFi();
-  
+
   // Update state based on connection
   state = isConnected ? LED_ONLINE : LED_OFFLINE;
   updateLED(state);
 }
+int generateRandomAxisValue() {
+  return random(10, 101); // random(min, max) where max is exclusive
+}
+
 
 void loop() {
-  // Check connectivity periodically
-  if (millis() - lastPingTime > pingInterval) {
-    checkConnectivity();
-    lastPingTime = millis();
+  // Check connectivity periodically (less frequently)
+  unsigned long currentMillis = millis();
+  if (currentMillis - lastConnectivityCheck > connectivityCheckInterval) {
+    checkWiFiConnection(); // Just a quick check, non-blocking
+    lastConnectivityCheck = currentMillis;
   }
 
   // === Read Sensors ===
@@ -44,6 +51,19 @@ void loop() {
   int xVal = digitalRead(X_AXIS);
   int yVal = digitalRead(Y_AXIS);
   int zVal = digitalRead(Z_AXIS);
+
+  // Replace 1 values with random numbers between 20 and 90
+  if (xVal == 1) {
+    xVal = generateRandomAxisValue();
+  }
+
+  if (yVal == 1) {
+    yVal = generateRandomAxisValue();
+  }
+
+  if (zVal == 1) {
+    zVal = generateRandomAxisValue();
+  }
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();  // Celsius
 
@@ -72,27 +92,22 @@ void loop() {
     currentData.signature = signedHash;
     currentData.valid = true;
 
-    // Send data immediately if connected, otherwise buffer it
-    if (isConnected) {
-      sendDataToServer(currentData);
-      
-      // Try to send any buffered data
-      sendBufferedData();
-    } else {
-      // Buffer the data
-      addToBuffer(currentData);
-    }
+    // Always buffer data - never wait for sending
+    addToBuffer(currentData);
 
     // Debug output
     printSensorValues(xVal, yVal, zVal, temperature, humidity, vibrationsPerSecond, signedHash, isConnected);
-    
+
     // Save current values for future change detection
     updatePreviousReadings(xVal, yVal, zVal, temperature, humidity, vibrationsPerSecond);
   }
+
+  // Process network queue - this doesn't block
+  processNetworkQueue();
 
   // Update LED based on connection state
   state = isConnected ? LED_ONLINE : LED_OFFLINE;
   updateLED(state);
 
-  delay(100);  // Short delay before next loop
+  // No delay needed - the loop will run continuously
 }

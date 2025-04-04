@@ -4,12 +4,14 @@
 #define CONFIG_H
 
 // === Wi-Fi Credentials 2.4Ghz ===
-const char* ssid = "<YOUR_SSID_HERE>";
-const char* password = "<PASSWORD>";
+const char* ssid = "ThunderHorn";
+const char* password = "ethglobal.com";
 
 // === Server Configuration ===
-const char* serverUrl = "http://192.168.1.143:3000/";
-const String serverEndpoint = "http://192.168.1.143:3000/api/requests/0x1234567890123456789012345678901234567890/update";
+
+const String serverUrl = "https://vector.0xshazam.xyz/";  // Complete URL for ping
+const char* SERVER_HOST = "vector.0xshazam.xyz";  // Just the hostname without https:// or path
+const String serverEndpoint = "https://vector.0xshazam.xyz/api/requests/0x1234567890123456789012345678901234567890/update";
 const int pingInterval = 30000; // 30 seconds between connectivity checks
 
 // === Pin Definitions ===
