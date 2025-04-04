@@ -3,34 +3,77 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useAppContext } from "@/utils/context";
+import { Provider, useAppContext } from "@/utils/context";
 import Spinner from "@/components/ui/Spinner";
 import { currencies } from "@/utils/currencies";
 import { config } from "@/utils/config";
 import { rainbowKitConfig as wagmiConfig } from "@/utils/wagmiConfig";
+import React from "react";
+import { Context, WagmiProvider } from "wagmi";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { rainbowKitConfig } from "@/utils/wagmiConfig";
 
 const CreateInvoiceForm = dynamic(
   () => import("@requestnetwork/create-invoice-form/react"),
   { ssr: false, loading: () => <Spinner /> }
 );
-
 export default function NewRequest() {
+  const queryClient = new QueryClient();
+
+  return (
+    <WagmiProvider config={rainbowKitConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <Provider>
+            <NewRequestt />
+          </Provider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+
+function NewRequestt() {
   function createRequest(event: React.FormEvent) {
     event.preventDefault();
     // Handle form submission logic here
+    setShowModal(true);
   }
   const { requestNetwork } = useAppContext();
+  const [showModal, setShowModal] = React.useState(true);
+
+  console.log(requestNetwork);
 
   return (
     <DashboardLayout type="client">
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 rounded-lg">
-        <CreateInvoiceForm
-          config={config}
-          currencies={currencies}
-          wagmiConfig={wagmiConfig}
-          requestNetwork={requestNetwork}
-        />
-      </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-gray-800 rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">
+                Create Invoice
+              </h2>
+              <button
+                className="text-gray-400 hover:text-white"
+                aria-label="Close"
+                onClick={() => setShowModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[75vh]">
+              <CreateInvoiceForm
+                config={config}
+                currencies={currencies}
+                wagmiConfig={wagmiConfig}
+                requestNetwork={requestNetwork}
+                singleInvoicePath="/"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">

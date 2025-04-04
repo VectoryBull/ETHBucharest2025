@@ -6,23 +6,27 @@ export default function Home() {
     {
       icon: "🌐",
       title: "Decentralized Network",
-      description: "Connect directly with shipping providers worldwide without intermediaries"
+      description:
+        "Connect directly with shipping providers worldwide without intermediaries",
     },
     {
       icon: "🤝",
       title: "Direct Negotiations",
-      description: "Get the best rates by dealing directly with transport companies"
+      description:
+        "Get the best rates by dealing directly with transport companies",
     },
     {
       icon: "📱",
       title: "Real-time Tracking",
-      description: "Monitor your shipments with advanced IoT sensors and live updates"
+      description:
+        "Monitor your shipments with advanced IoT sensors and live updates",
     },
     {
       icon: "🔐",
       title: "Secure & Transparent",
-      description: "Every transaction and tracking data is secured and verifiable"
-    }
+      description:
+        "Every transaction and tracking data is secured and verifiable",
+    },
   ];
 
   return (
@@ -36,8 +40,12 @@ export default function Home() {
               <span className="text-xl font-bold">SmartTrack</span>
             </div>
             <div className="flex gap-4">
-              <Link href="/about" className="hover:text-gray-300">About</Link>
-              <Link href="/contact" className="hover:text-gray-300">Contact</Link>
+              <Link href="/about" className="hover:text-gray-300">
+                About
+              </Link>
+              <Link href="/contact" className="hover:text-gray-300">
+                Contact
+              </Link>
             </div>
           </div>
         </div>
@@ -50,8 +58,9 @@ export default function Home() {
             Decentralized Shipping Platform
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Connect directly with shipping providers worldwide. Get better rates,
-            real-time tracking, and complete transparency in your logistics.
+            Connect directly with shipping providers worldwide. Get better
+            rates, real-time tracking, and complete transparency in your
+            logistics.
           </p>
           <div className="flex gap-4 justify-center">
             <Link
