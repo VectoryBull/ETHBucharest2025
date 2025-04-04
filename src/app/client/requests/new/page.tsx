@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { Provider, useAppContext } from "@/utils/context";
 import Spinner from "@/components/ui/Spinner";
 import { currencies } from "@/utils/currencies";
-import { config } from "@/utils/config";
+// import { config } from "@/utils/config";
 import { rainbowKitConfig as wagmiConfig } from "@/utils/wagmiConfig";
 import React from "react";
 import { Context, WagmiProvider } from "wagmi";
@@ -14,6 +14,28 @@ import { ConnectButton, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { rainbowKitConfig } from "@/utils/wagmiConfig";
 import "@rainbow-me/rainbowkit/styles.css";
+
+/*
+interface CustomFormData extends Omit<Invoice, "meta" | "creationDate"> {
+  creatorId: string;
+  note: string;
+  miscellaneous: {
+    // This is a placeholder for any additional data that the user wants to include in the invoice
+    labels: string[];
+    builderId: string;
+    createdWith: string;
+  };
+  invoiceNumber: string;
+  payerAddress: string;
+  payeeAddress: string;
+  dueDate: string;
+  issuedOn: string;
+  invoiceItems: InvoiceItem[];
+  buyerInfo?: ActorInfo;
+  sellerInfo?: ActorInfo;
+  isEncrypted?: boolean;
+}
+*/
 
 const CreateInvoiceForm = dynamic(
   () => import("@requestnetwork/create-invoice-form/react"),
@@ -46,36 +68,44 @@ function NewRequestt() {
 
   console.log(requestNetwork);
 
+  const baseConfig: IConfig = {
+    builderId: "request-network", // Replace with your builder ID, arbitrarily chosen, used to identify your app
+    dashboardLink: "/",
+    logo: "/file.svg",
+    colors: {
+      main: "#0BB489",
+      secondary: "#58E1A5",
+    },
+    defaultChain: "ethereum",
+    defaultCurrency: "ETH",
+    defaultNetwork: "mainnet",
+    defaultPaymentNetwork: "erc20",
+    defaultPaymentAddress: "0x7A8E79dE63c29c3ee2375Cd3D2e90FEaA5aAf321",
+    defaultPaymentAmount: "0.01",
+    defaultPaymentCurrency: "ETH",
+  };
+  const [config, setConfig] = React.useState(baseConfig);
+
   return (
     <DashboardLayout type="client">
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-800 rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-hidden">
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <h2 className="text-lg font-semibold text-white">
-                Create Invoice
-              </h2>
-              <button
-                className="text-gray-400 hover:text-white"
-                aria-label="Close"
-                onClick={() => setShowModal(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="p-6 overflow-y-auto max-h-[75vh]">
-              <ConnectButton />
-              <CreateInvoiceForm
-                config={config}
-                currencies={currencies}
-                wagmiConfig={wagmiConfig}
-                requestNetwork={requestNetwork}
-                singleInvoicePath="/"
-              />
-            </div>
+      <div>
+        <div>
+          <div className="flex justify-end">
+            <ConnectButton />
           </div>
+          <br />
+
+          <CreateInvoiceForm
+            config={config}
+            currencies={currencies}
+            wagmiConfig={wagmiConfig}
+            requestNetwork={requestNetwork}
+            singleInvoicePath="/"
+          />
         </div>
-      )}
+      </div>
+
+      {/*}
 
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
@@ -166,6 +196,7 @@ function NewRequestt() {
           </form>
         </div>
       </div>
+      */}
     </DashboardLayout>
   );
 }
