@@ -8,7 +8,7 @@ const ARBITRUM_SEPOLIA = {
         symbol: 'ETH',
         decimals: 18
     },
-    rpcUrls: ['https://api.zan.top/arb-sepolia'],
+    rpcUrls: [process.env.NEXT_PUBLIC_RPC_URL || 'https://api.zan.top/arb-sepolia'],
     blockExplorerUrls: ['https://sepolia.arbiscan.io/']
 };
 

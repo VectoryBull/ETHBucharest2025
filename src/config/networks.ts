@@ -3,7 +3,7 @@ export const NETWORKS = {
         id: 421614,
         name: 'Arbitrum Sepolia',
         chainId: '0x66EEE',
-        rpcUrl: 'https://api.zan.top/arb-sepolia',
+        rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || 'https://api.zan.top/arb-sepolia',
         explorer: 'https://sepolia.arbiscan.io/',
         nativeCurrency: {
             name: 'ETH',
