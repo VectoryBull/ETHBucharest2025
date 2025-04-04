@@ -10,9 +10,10 @@ import { config } from "@/utils/config";
 import { rainbowKitConfig as wagmiConfig } from "@/utils/wagmiConfig";
 import React from "react";
 import { Context, WagmiProvider } from "wagmi";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { ConnectButton, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { rainbowKitConfig } from "@/utils/wagmiConfig";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const CreateInvoiceForm = dynamic(
   () => import("@requestnetwork/create-invoice-form/react"),
@@ -63,6 +64,7 @@ function NewRequestt() {
               </button>
             </div>
             <div className="p-6 overflow-y-auto max-h-[75vh]">
+              <ConnectButton />
               <CreateInvoiceForm
                 config={config}
                 currencies={currencies}
