@@ -3,12 +3,12 @@
 #include <ArduinoJson.h>
 #include "DHT.h"
 
-// === Wi-Fi Credentials ===
+// === Wi-Fi Credentials 2.4Ghz ===
 const char* ssid = "<YOUR_SSID_HERE>";
 const char* password = "<PASSWORD>";
 
 // === Server Configuration ===
-const char* serverUrl = "<SERVER_URL>";
+const char* serverUrl = "http://192.168.1.143:3000/";
 const int pingInterval = 30000; // 30 seconds between connectivity checks
 unsigned long lastPingTime = 0;
 
@@ -287,7 +287,9 @@ void sendDataToServer(SensorData data) {
 
   Serial.println("Sending data to server...");
 
-  http.begin(client, serverUrl);
+  // Update this URL to your actual server endpoint
+  String serverEndpoint = "http://192.168.1.143:3000/api/requests/0x1234567890123456789012345678901234567890/update";
+  http.begin(client, serverEndpoint);
   http.addHeader("Content-Type", "application/json");
 
   // Create JSON document
@@ -303,11 +305,10 @@ void sendDataToServer(SensorData data) {
   String jsonString;
   serializeJson(jsonDoc, jsonString);
 
-  // For now, just print the JSON data that would be sent
+  // Print the JSON data for debugging
   Serial.println("JSON payload: " + jsonString);
 
-  // Uncomment to actually send the data
-  /*
+  // Actually send the data
   int httpCode = http.POST(jsonString);
 
   if (httpCode > 0) {
@@ -320,9 +321,7 @@ void sendDataToServer(SensorData data) {
   }
 
   http.end();
-  */
 }
-
 
 void addToBuffer(SensorData data) {
   if (bufferIndex >= MAX_BUFFER_SIZE) {
