@@ -18,22 +18,19 @@ export interface Request {
 
 // Request with latest sensor data
 export interface RequestWithSensorData extends Request {
-    sensorData: {
-        temperature: number;
-        humidity: number;
-        vibration1: number;
-        vibration2: number;
-        gyro: number;
-        timestamp: number;
-    };
+    sensorData: SensorData;
 }
 
-// Request summary for list views
-export interface RequestSummary {
-    address: Address;
-    type: Request['type'];
-    status: Request['status'];
-    delivery: string;
-    deadline: string;
-    amount: string;
-} 
+export interface SensorData {
+    temperature: number;
+    humidity: number;
+    vibrations: number;
+    acceleration: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    timestamp: number;
+}
+
+export type RequestSummary = Pick<Request, 'address' | 'type' | 'status' | 'delivery' | 'deadline' | 'amount'>; 
