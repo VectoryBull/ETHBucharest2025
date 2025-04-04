@@ -14,7 +14,11 @@ Sensitive cargo like food, electronics, or pharmaceuticals often suffers from mi
 ---
 
 ### 🛠️ Solution  
-SmartTrack monitors shipment conditions using a custom hardware device and automates payment settlements through smart contracts. If temperature, humidity, or vibration levels cross predefined thresholds, the contract automatically releases or refunds funds without dispute. The system also aggregates road condition data, creating opportunities to resell insights to logistics providers and infrastructure planners.
+SmartTrack monitors shipment conditions using a custom hardware device and automates payment settlements through smart contracts. If temperature, humidity, or vibration levels cross predefined thresholds, the contract automatically releases or refunds funds without dispute.
+
+The system also aggregates and resells road condition data to logistics providers and infrastructure planners. Additionally, it can track and share environmental pollution levels (e.g. air quality, humidity) with users in real-time.
+
+This aligns with AKASHA's mission of bringing public data access to communities—such as Zuzalu—by enabling transparency, awareness, and shared decision-making around transportation and environmental conditions.
 
 ---
 
