@@ -18,7 +18,7 @@ export interface Request {
 
 // Request with latest sensor data
 export interface RequestWithSensorData extends Request {
-    sensorData: SensorData;
+    sensorData: SensorData[];
 }
 
 export interface SensorData {

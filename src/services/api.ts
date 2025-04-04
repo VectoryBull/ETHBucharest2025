@@ -1,4 +1,7 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+import { RequestWithSensorData } from "@/types/request";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+console.log('API_BASE', API_BASE);
 
 export const apiService = {
     async getRequests() {
@@ -17,7 +20,7 @@ export const apiService = {
         }
     },
 
-    async getRequest(address: string) {
+    async getRequest(address: string): Promise<RequestWithSensorData | null> {
         try {
             const res = await fetch(`${API_BASE}/api/requests/${address}`, {
                 next: {
