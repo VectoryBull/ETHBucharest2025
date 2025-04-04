@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Text } from '@react-three/drei';
 import { useRef } from 'react';
 import * as THREE from 'three';
 import { SensorData } from '@/types/request';
@@ -22,36 +22,178 @@ function Container({ sensorData }: Props) {
     }
 
     return (
-        <group position={[0, -2, 0]}>
+        <group position={[0, -1, 0]} scale={1.5}>
             {/* Container body */}
-            <mesh ref={containerRef}>
+            <mesh ref={containerRef} position={[0, 1, 0]}>
                 <boxGeometry args={[4, 2, 2]} />
                 <meshStandardMaterial color="#4F46E5" />
             </mesh>
 
-            {/* Truck platform */}
-            <mesh position={[0, -1.5, 0]}>
-                <boxGeometry args={[6, 0.5, 3]} />
-                <meshStandardMaterial color="#1F2937" />
+            {/* Trailer back lights */}
+            <group position={[5.0, -0.5, 0]}>
+                {/* Left back light */}
+                <mesh position={[0, -0.1, 1]}>
+                    <boxGeometry args={[0.1, 0.3, 0.3]} />
+                    <meshStandardMaterial color="#FF0000" emissive="#FF0000" emissiveIntensity={0.5} />
+                </mesh>
+                {/* Right back light */}
+                <mesh position={[0, -0.1, -1]}>
+                    <boxGeometry args={[0.1, 0.3, 0.3]} />
+                    <meshStandardMaterial color="#FF0000" emissive="#FF0000" emissiveIntensity={0.5} />
+                </mesh>
+                {/* Brake lights (top) */}
+                <mesh position={[0, 0.1, 0.8]}>
+                    <boxGeometry args={[0.1, 0.2, 0.4]} />
+                    <meshStandardMaterial color="#FF0000" emissive="#FF0000" emissiveIntensity={0.5} />
+                </mesh>
+                <mesh position={[0, 0.1, -0.8]}>
+                    <boxGeometry args={[0.1, 0.2, 0.4]} />
+                    <meshStandardMaterial color="#FF0000" emissive="#FF0000" emissiveIntensity={0.5} />
+                </mesh>
+            </group>
+
+            {/* Truck cab */}
+            <group position={[-3.5, 0, 0]}>
+                {/* Main cab body - Optimus Prime Red */}
+                <mesh position={[0, 0.4, 0]}>
+                    <boxGeometry args={[2.5, 2.6, 2.2]} />
+                    <meshStandardMaterial color="#CC0000" metalness={0.8} roughness={0.2} />
+                </mesh>
+
+                {/* Hood - Optimus Prime Blue with red stripe */}
+                <mesh position={[-1.2, -0.4, 0]}>
+                    <boxGeometry args={[1.8, 1.2, 2.2]} />
+                    <meshStandardMaterial color="#0000CC" metalness={0.8} roughness={0.2} />
+                </mesh>
+
+                {/* Red stripe on hood */}
+                <mesh position={[-1.2, -0.2, 0]}>
+                    <boxGeometry args={[1.81, 0.3, 2.21]} />
+                    <meshStandardMaterial color="#FFFFFF" metalness={0.8} roughness={0.2} />
+                </mesh>
+
+                {/* Grill (chrome) */}
+                <mesh position={[-1.4, -0.4, 0]}>
+                    <boxGeometry args={[0.1, 0.8, 1.8]} />
+                    <meshStandardMaterial color="#C0C0C0" metalness={1} roughness={0.1} />
+                </mesh>
+
+                {/* Windshield - tinted blue */}
+                <mesh position={[0.2, 0.4, 0]} rotation={[0, 0, -0.3]}>
+                    <boxGeometry args={[0.1, 1, 1.8]} />
+                    <meshStandardMaterial color="#000066" metalness={0.9} roughness={0.1} opacity={0.8} transparent />
+                </mesh>
+
+                {/* Main headlights - bigger and brighter */}
+                <mesh position={[-2.1, -0.4, 0.9]}>
+                    <cylinderGeometry args={[0.25, 0.25, 0.15]} />
+                    <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={1} />
+                </mesh>
+                <mesh position={[-2.1, -0.4, -0.9]}>
+                    <cylinderGeometry args={[0.25, 0.25, 0.15]} />
+                    <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={1} />
+                </mesh>
+
+            </group>
+
+            {/* Truck platform - raised up */}
+            <mesh position={[0, -0.5, 0]}>
+                <boxGeometry args={[10, 0.5, 3.5]} />
+                <meshStandardMaterial color="#000066" metalness={0.5} roughness={0.5} />
             </mesh>
 
-            {/* Wheels */}
-            <mesh position={[-2, -2, 1]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.5, 0.5, 0.3]} />
-                <meshStandardMaterial color="#111827" />
+            {/* Wheels with chrome rims and blue accents - raised up */}
+            {[
+                [-4.5, -1, 1.3], [-4.5, -1, -1.3],
+                [2, -1, 1.3], [2, -1, -1.3],
+                [3.5, -1, 1.3], [3.5, -1, -1.3]
+            ].map((position, index) => (
+                <group key={index} position={position as [number, number, number]}>
+                    {/* Tire */}
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <cylinderGeometry args={[0.6, 0.6, 0.5]} />
+                        <meshStandardMaterial color="#111827" roughness={0.8} />
+                    </mesh>
+                    {/* Chrome rim with blue accent */}
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <cylinderGeometry args={[0.35, 0.35, 0.51]} />
+                        <meshStandardMaterial color="#C0C0C0" metalness={1} roughness={0.1} />
+                    </mesh>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <cylinderGeometry args={[0.4, 0.4, 0.49]} />
+                        <meshStandardMaterial color="#FFFFFF" metalness={0.8} roughness={0.2} />
+                    </mesh>
+                </group>
+            ))}
+
+            {/* Chrome exhaust pipes with blue base - bigger, longer, and parallel */}
+            <mesh position={[-3, 0.6, 1.2]} rotation={[0, 0, 0]}>
+                <cylinderGeometry args={[0.15, 0.15, 2.6]} />
+                <meshStandardMaterial color="#FFFFFF" metalness={0.9} roughness={0.1} />
             </mesh>
-            <mesh position={[-2, -2, -1]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.5, 0.5, 0.3]} />
-                <meshStandardMaterial color="#111827" />
+            <mesh position={[-3, 0.6, -1.2]} rotation={[0, 0, 0]}>
+                <cylinderGeometry args={[0.15, 0.15, 2.6]} />
+                <meshStandardMaterial color="#FFFFFF" metalness={0.9} roughness={0.1} />
             </mesh>
-            <mesh position={[2, -2, 1]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.5, 0.5, 0.3]} />
-                <meshStandardMaterial color="#111827" />
+
+            {/* Chrome tips for exhaust pipes */}
+            <mesh position={[-3, 2.0, 1.2]} rotation={[0, 0, 0]}>
+                <cylinderGeometry args={[0.18, 0.28, 0.3]} />
+                <meshStandardMaterial color="#C0C0C0" metalness={1} roughness={0.1} />
             </mesh>
-            <mesh position={[2, -2, -1]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.5, 0.5, 0.3]} />
-                <meshStandardMaterial color="#111827" />
+            <mesh position={[-3, 2.0, -1.2]} rotation={[0, 0, 0]}>
+                <cylinderGeometry args={[0.18, 0.28, 0.3]} />
+                <meshStandardMaterial color="#C0C0C0" metalness={1} roughness={0.1} />
             </mesh>
+
+            {/* License plate with text */}
+            <group position={[5, -0.4, 0]}>
+                {/* Plate background */}
+                <mesh>
+                    <boxGeometry args={[0.1, 0.4, 1.2]} />
+                    <meshStandardMaterial color="#FFFFFF" metalness={0.5} roughness={0.5} />
+                </mesh>
+                {/* VECTOR text */}
+                <Text
+                    position={[0.06, 0, 0]}
+                    rotation={[0, Math.PI / 2, 0]}
+                    fontSize={0.2}
+                    color="#000000"
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    VECTOR
+                </Text>
+            </group>
+
+            {/* ETHBucharest 2025 label with text */}
+            <group position={[-4.8, 1.2, 0]} rotation={[0, - Math.PI / 2, 0]}>
+                {/* Background panel */}
+                <mesh>
+                    <boxGeometry args={[2, 0.8, 0.1]} />
+                    <meshStandardMaterial color="#000066" metalness={0.8} roughness={0.2} />
+                </mesh>
+                {/* ETHBucharest text */}
+                <Text
+                    position={[0, 0.1, 0.06]}
+                    fontSize={0.3}
+                    color="#FFFFFF"
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    ETHBucharest
+                </Text>
+                {/* 2025 text */}
+                <Text
+                    position={[0, -0.2, 0.06]}
+                    fontSize={0.3}
+                    color="#FFFFFF"
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    2025
+                </Text>
+            </group>
         </group>
     );
 }
@@ -69,11 +211,11 @@ export default function ContainerVisualization({ sensorData = [] }: Props) {
 
     return (
         <div className="flex gap-6">
-            <div className="flex-1 h-[400px] bg-gray-900 rounded-lg overflow-hidden">
+            <div className="flex-1 h-[500px] bg-gray-900 rounded-lg overflow-hidden">
                 <Canvas
                     camera={{
-                        position: [8, 4, 8],
-                        fov: 45,
+                        position: [12, 8, 12],
+                        fov: 40,
                         near: 0.1,
                         far: 1000
                     }}
@@ -85,18 +227,21 @@ export default function ContainerVisualization({ sensorData = [] }: Props) {
                     }}
                 >
                     <color attach="background" args={['#1F2937']} />
-                    <ambientLight intensity={0.5} />
+                    <ambientLight intensity={0.7} />
                     <directionalLight
-                        position={[10, 10, 5]}
-                        intensity={1}
+                        position={[15, 15, 8]}
+                        intensity={1.2}
                         castShadow
                     />
                     <Container sensorData={sensorData} />
                     <OrbitControls
-                        enableZoom={false}
+                        enableZoom={true}
+                        minDistance={10}
+                        maxDistance={30}
+                        zoomSpeed={0.5}
                         minPolarAngle={Math.PI / 4}
-                        maxPolarAngle={Math.PI / 2}
-                        target={[0, -2, 0]}
+                        maxPolarAngle={Math.PI / 2.2}
+                        target={[0, 0, 0]}
                     />
                 </Canvas>
             </div>

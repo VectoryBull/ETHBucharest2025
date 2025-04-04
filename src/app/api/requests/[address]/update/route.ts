@@ -19,7 +19,7 @@ export async function POST(
         const { address } = await context.params;
         const data: SensorUpdate = await request.json();
 
-        const updatedRequest = mockDb.addSensorData(address, data);
+        const updatedRequest = mockDb.addSensorData(address, { ...data, X: data.X / 100, Y: data.Y / 100, Z: data.Z / 100 });
 
         if (!updatedRequest) {
             return NextResponse.json(
@@ -27,7 +27,6 @@ export async function POST(
                 { status: 404 }
             );
         }
-        const requests = mockDb.getAllRequests();
 
         return NextResponse.json({
             success: true,

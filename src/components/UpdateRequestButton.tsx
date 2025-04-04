@@ -21,9 +21,9 @@ export default function UpdateRequestButton({ address, onUpdate }: Props) {
                 temperature_x_100: 2390,
                 humidity_x_100: 4500,
                 vibrations_x_100: 0,
-                X: Math.random(), // Random value between -1 and 1
-                Y: Math.random(),
-                Z: Math.random(),
+                X: Math.random() * 100,
+                Y: Math.random() * 100,
+                Z: Math.random() * 100,
                 signature: 583
             });
             router.refresh();
