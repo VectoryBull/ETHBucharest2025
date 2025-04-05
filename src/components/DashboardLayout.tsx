@@ -42,6 +42,13 @@ export default function DashboardLayout({ children, type }: DashboardLayoutProps
             href="/"
             className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
           >
+            <img
+              src="/Logo.png"
+              alt="Vector"
+              width={40}
+              height={40}
+              className="rounded-lg"
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -53,7 +60,7 @@ export default function DashboardLayout({ children, type }: DashboardLayoutProps
             </svg>
           </Link>
           <div>
-            <h1 className="text-xl font-semibold">SmartTrack</h1>
+            <h1 className="text-xl font-semibold">Vector</h1>
             <p className="text-sm text-gray-400">{portalName}</p>
           </div>
         </div>

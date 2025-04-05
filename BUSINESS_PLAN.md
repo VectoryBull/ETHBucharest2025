@@ -1,5 +1,5 @@
 ### 💡 Project Name  
-**SmartTrack**
+**Vector**
 
 ---
 
@@ -18,13 +18,13 @@ Additionally, logistics companies frequently operate without comprehensive insig
 ---
 
 ### 🛠️ Solution  
-​SmartTrack monitors shipment conditions using custom hardware devices and automates payment settlements through smart contracts. If temperature, humidity, vibration levels, or rapid variations in these parameters exceed predefined thresholds, the contract automatically releases or refunds funds without dispute.​
+Vector monitors shipment conditions using custom hardware devices and automates payment settlements through smart contracts. If temperature, humidity, vibration levels, or rapid variations in these parameters exceed predefined thresholds, the contract automatically releases or refunds funds without dispute.
 
-We utilize Request's invoicing system for billing and creating new shipments. All data we collect and process is encrypted and signed on the Arbitrum network.​
+We utilize Request's invoicing system for billing and creating new shipments. All data we collect and process is encrypted and signed on the Arbitrum network.
 
-The system aggregates and resells road condition data to logistics providers and infrastructure planners. Additionally, it tracks and shares environmental pollution levels, such as air quality and humidity, with users in real-time.​
+The system aggregates and resells road condition data to logistics providers and infrastructure planners. Additionally, it tracks and shares environmental pollution levels, such as air quality and humidity, with users in real-time.
 
-Our system also supports stationary sensors installed in various locations to monitor environmental factors like air quality. This aligns with AKASHA's mission of providing public data access to communities, such as Zuzalu, by promoting transparency, awareness, and shared decision-making regarding transportation and environmental conditions.​
+Our system also supports stationary sensors installed in various locations to monitor environmental factors like air quality. This aligns with AKASHA's mission of providing public data access to communities, such as Zuzalu, by promoting transparency, awareness, and shared decision-making regarding transportation and environmental conditions.
 
 ---
 
@@ -75,7 +75,7 @@ Our system also supports stationary sensors installed in various locations to mo
 ---
 
 ### 🌍 Impact & Ecosystem Fit  
-​SmartTrack enhances global logistics by integrating IoT and blockchain technologies, fostering transparency, fairness, and automation in supply chains. This integration not only streamlines operations but also significantly contributes to sustainability efforts. By providing real-time monitoring of shipment conditions, SmartTrack helps prevent product spoilage and damage, thereby reducing waste and conserving resources. Additionally, the system's data insights enable companies to optimize transportation routes and inventory management, leading to decreased carbon emissions and a more efficient supply chain. This approach supports a culture of sustainability and responsibility, aligning with the principles of a circular economy and promoting environmental stewardship.​
+Vector enhances global logistics by integrating IoT and blockchain technologies, fostering transparency, fairness, and automation in supply chains. This integration not only streamlines operations but also significantly contributes to sustainability efforts. By providing real-time monitoring of shipment conditions, Vector helps prevent product spoilage and damage, thereby reducing waste and conserving resources. Additionally, the system's data insights enable companies to optimize transportation routes and inventory management, leading to decreased carbon emissions and a more efficient supply chain. This approach supports a culture of sustainability and responsibility, aligning with the principles of a circular economy and promoting environmental stewardship.
 
 ---
 

@@ -22,8 +22,8 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg"></div>
-              <span className="text-xl font-bold">SmartTrack</span>
+              <img src="/Logo.png" alt="Vector Logo" className="w-8 h-8 rounded-lg" />
+              <span className="text-xl font-bold">Vector</span>
             </div>
             <p className="text-gray-400">
               Decentralized shipping platform connecting clients with delivery providers worldwide.
@@ -66,7 +66,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400">© 2024 SmartTrack. All rights reserved.</p>
+          <p className="text-gray-400">© 2024 Vector. All rights reserved.</p>
           <div className="flex gap-8">
             <Link href="/terms" className="text-gray-400 hover:text-white">Terms</Link>
             <Link href="/privacy" className="text-gray-400 hover:text-white">Privacy</Link>
