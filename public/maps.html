@@ -1,0 +1,266 @@
+<html>
+  <head>
+    <title>Gradient Routes and Air Quality Heatmap</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+      .legend {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .color-box {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+      .route-legend {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+      .gradient-bar {
+        width: 200px;
+        height: 20px;
+        margin-top: 5px;
+        background: linear-gradient(to right, #00ff00, #ffff00, #ff0000);
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Vv7T06Z8plk_yqyKAF55S3ElBOQnNz0&libraries=visualization"></script>
+    <script>
+      function initMap() {
+        // Initialize the map centered on a specific location
+        var centerPoint = { lat: 44.425989, lng: 26.109925 };
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: centerPoint,
+          disableDefaultUI: true,
+          panControl: true,
+          zoomControl: true,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.DEFAULT,
+          },
+          mapTypeControl: false,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          },
+          streetViewControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+        });
+
+        // ============ ROUTE DATA WITH DAMAGE LEVELS ============
+        // Define the main route waypoints
+        var routeWaypoints = [
+          { location: { lat: 44.428624, lng: 26.103416 }, pollutionLevel: 10 }, // Start - Low pollution
+          { location: { lat: 44.427537, lng: 26.10628 }, pollutionLevel: 20 }, // Waypoint 1 - Low-moderate
+          { location: { lat: 44.426537, lng: 26.10728 }, pollutionLevel: 35 }, // Waypoint 2 - Moderate
+          { location: { lat: 44.426346, lng: 26.109669 }, pollutionLevel: 60 }, // Waypoint 3 - Moderate-high
+          { location: { lat: 44.425893, lng: 26.111165 }, pollutionLevel: 75 }, // Waypoint 4 - High
+          { location: { lat: 44.424293, lng: 26.113765 }, pollutionLevel: 90 }, // End - Very high
+        ];
+
+        // Function to convert damage level to color (green to yellow to red gradient)
+        function getPollutionColor(level) {
+          // Convert to a value between 0 and 1
+          var normalizedLevel = level / 100;
+
+          // RGB values for green (0,255,0), yellow (255,255,0), and red (255,0,0)
+          var r, g;
+
+          if (normalizedLevel < 0.5) {
+            // Green to Yellow (0 to 0.5)
+            r = Math.floor(255 * (normalizedLevel * 2));
+            g = 255;
+          } else {
+            // Yellow to Red (0.5 to 1)
+            r = 255;
+            g = Math.floor(255 * (1 - (normalizedLevel - 0.5) * 2));
+          }
+
+          return "rgb(" + r + "," + g + ",0)";
+        }
+
+        // Function to create route segments with gradual color changes
+        function createGradualRoutes() {
+          // Process each segment of the route
+          for (var i = 0; i < routeWaypoints.length - 1; i++) {
+            (function (index) {
+              var startPoint = routeWaypoints[index].location;
+              var endPoint = routeWaypoints[index + 1].location;
+              var startPollution = routeWaypoints[index].pollutionLevel;
+              var endPollution = routeWaypoints[index + 1].pollutionLevel;
+              var avgPollution = (startPollution + endPollution) / 2;
+
+              // Get color based on average damage level
+              var segmentColor = getPollutionColor(avgPollution);
+
+              var directionsService = new google.maps.DirectionsService();
+              var directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                preserveViewport: true,
+                polylineOptions: {
+                  strokeColor: segmentColor,
+                  strokeWeight: 5,
+                },
+                suppressMarkers: true,
+              });
+
+              directionsService.route(
+                {
+                  origin: startPoint,
+                  destination: endPoint,
+                  travelMode: google.maps.TravelMode.DRIVING,
+                },
+                function (response, status) {
+                  if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(response);
+
+                    // Optional: For more granular color changes, you could further subdivide each route
+                    // by extracting path coordinates and creating custom polylines with more color points
+                  } else {
+                    console.error("Directions request failed due to " + status);
+                  }
+                }
+              );
+            })(i);
+          }
+
+          // Add markers for the start and end points
+          new google.maps.Marker({
+            position: routeWaypoints[0].location,
+            map: map,
+            label: "A",
+            title: "Start",
+          });
+
+          new google.maps.Marker({
+            position: routeWaypoints[routeWaypoints.length - 1].location,
+            map: map,
+            label: "B",
+            title: "End",
+          });
+        }
+
+        // ============ AIR QUALITY HEATMAP DATA ============
+        // Generate sample air quality data points around the center
+        var airQualityData = [
+          // Good air quality (green) - northwestern area
+          {
+            location: new google.maps.LatLng(44.427989, 26.107925),
+            weight: 10,
+          },
+          { location: new google.maps.LatLng(44.428389, 26.108125), weight: 5 },
+          { location: new google.maps.LatLng(44.428789, 26.108325), weight: 8 },
+          {
+            location: new google.maps.LatLng(44.427689, 26.107725),
+            weight: 12,
+          },
+          { location: new google.maps.LatLng(44.427889, 26.107525), weight: 7 },
+
+          // Moderate air quality (yellow) - northeastern area
+          {
+            location: new google.maps.LatLng(44.427989, 26.111925),
+            weight: 30,
+          },
+          {
+            location: new google.maps.LatLng(44.428389, 26.112125),
+            weight: 35,
+          },
+          {
+            location: new google.maps.LatLng(44.428789, 26.112325),
+            weight: 28,
+          },
+          {
+            location: new google.maps.LatLng(44.427689, 26.111725),
+            weight: 32,
+          },
+          {
+            location: new google.maps.LatLng(44.427889, 26.111525),
+            weight: 37,
+          },
+
+          // Poor air quality (red) - southern area
+          {
+            location: new google.maps.LatLng(44.423989, 26.109925),
+            weight: 70,
+          },
+          {
+            location: new google.maps.LatLng(44.423689, 26.110325),
+            weight: 75,
+          },
+          {
+            location: new google.maps.LatLng(44.423389, 26.109625),
+            weight: 80,
+          },
+          {
+            location: new google.maps.LatLng(44.423189, 26.108925),
+            weight: 65,
+          },
+          {
+            location: new google.maps.LatLng(44.422989, 26.110825),
+            weight: 90,
+          },
+
+          // Additional data points for better coverage
+          {
+            location: new google.maps.LatLng(44.426289, 26.108525),
+            weight: 20,
+          },
+          {
+            location: new google.maps.LatLng(44.425789, 26.111325),
+            weight: 45,
+          },
+          {
+            location: new google.maps.LatLng(44.424589, 26.107125),
+            weight: 15,
+          },
+          {
+            location: new google.maps.LatLng(44.425089, 26.113125),
+            weight: 40,
+          },
+          {
+            location: new google.maps.LatLng(44.424189, 26.111825),
+            weight: 60,
+          },
+        ];
+
+        // Add a legend for routes
+        var routeLegend = document.createElement("div");
+        routeLegend.className = "route-legend";
+        routeLegend.innerHTML = `
+          <div><strong>Route Damage Levels</strong></div>
+          <div class="gradient-bar"></div>
+          <div style="display: flex; justify-content: space-between; width: 200px;">
+            <span>Low</span>
+            <span>Medium</span>
+            <span>High</span>
+          </div>
+        `;
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(routeLegend);
+
+        // Create the routes with gradual colors
+        createGradualRoutes();
+      }
+    </script>
+  </head>
+  <body onload="initMap()">
+    <div id="map" style="height: 100vh; width: 100vw"></div>
+  </body>
+</html>
