@@ -16,6 +16,7 @@ export default function DashboardLayout({ children, type }: DashboardLayoutProps
     { label: "New Request", href: "/client/requests/new", icon: "📦" },
     { label: "My Requests", href: "/client/requests", icon: "📋" },
     { label: "Track Shipments", href: "/client/track", icon: "🚚" },
+    { label: "Analytics", href: "/client/charts", icon: "📈" },
     { label: "Settings", href: "/client/settings", icon: "⚙️" },
   ];
 
