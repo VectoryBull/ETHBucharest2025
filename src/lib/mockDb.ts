@@ -17,19 +17,61 @@ const generateSensorData = (count: number, baseTimestamp: number): SensorData[] 
 
 // In-memory storage
 let requests: Record<string, RequestWithSensorData> = {
-    '0xa03a0921633fb5ea19dd6d6039973811e1ac6d88': {
-        address: '0xa03a0921633fb5ea19dd6d6039973811e1ac6d88',
+    '0x1790c579a6865f2f531506bfc7cc55432592c89a': {
+        address: '0x1790c579a6865f2f531506bfc7cc55432592c89a',
         type: 'Vehicle',
-        status: 'Pending',
-        pickup: 'New York, NY',
-        delivery: 'Los Angeles, CA',
-        weight: '2500kg',
-        temperature: '15-25°C',
-        deadline: '2024-02-15',
-        amount: '$2500',
+        status: 'In Transit',
+        pickup: 'Miami, FL',
+        delivery: 'Atlanta, GA',
+        weight: '1800kg',
+        temperature: '2-8°C',
+        deadline: '2024-03-20',
+        amount: '$3200',
         created: 1707936000000,
         lastUpdated: Date.now(),
-        sensorData: generateSensorData(12, Date.now() - 3600000) // Last hour of data
+        sensorData: generateSensorData(12, Date.now() - 3600000)
+    },
+    '0xb7bee003c769ac1839bd2a2a265d83d4e1dddc7a': {
+        address: '0xb7bee003c769ac1839bd2a2a265d83d4e1dddc7a',
+        type: 'Electronics',
+        status: 'Pending',
+        pickup: 'Boston, MA',
+        delivery: 'Washington, DC',
+        weight: '500kg',
+        temperature: '15-25°C',
+        deadline: '2024-03-15',
+        amount: '$1800',
+        created: 1707936000000,
+        lastUpdated: Date.now(),
+        sensorData: generateSensorData(12, Date.now() - 3600000)
+    },
+    '0xde591cd279a02d89558720df5b41468ea9124887': {
+        address: '0xde591cd279a02d89558720df5b41468ea9124887',
+        type: 'Other',
+        status: 'Delivered',
+        pickup: 'Houston, TX',
+        delivery: 'Phoenix, AZ',
+        weight: '3500kg',
+        temperature: '10-30°C',
+        deadline: '2024-03-25',
+        amount: '$4500',
+        created: 1707936000000,
+        lastUpdated: Date.now(),
+        sensorData: generateSensorData(12, Date.now() - 3600000)
+    },
+    '0x73a461283de544dc6e81b7ac5cbcf31d8871cc98': {
+        address: '0x73a461283de544dc6e81b7ac5cbcf31d8871cc98',
+        type: 'Food',
+        status: 'Delivered',
+        pickup: 'Seattle, WA',
+        delivery: 'San Francisco, CA',
+        weight: '1200kg',
+        temperature: '15-25°C',
+        deadline: '2024-03-10',
+        amount: '$2800',
+        created: 1707936000000,
+        lastUpdated: Date.now(),
+        sensorData: generateSensorData(12, Date.now() - 3600000)
     }
 };
 
