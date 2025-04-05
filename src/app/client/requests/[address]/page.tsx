@@ -196,12 +196,6 @@ export default async function RequestDetail({ params }: Props) {
                     </div>
                 )}
 
-                <iframe
-                    src="/maps.html"
-                    width="100%"
-                    height="500px"
-                    className="rounded-lg"
-                ></iframe>
 
                 {request.sensorData && (
                     <div className="bg-gray-900 rounded-lg p-6 space-y-4">
@@ -219,6 +213,12 @@ export default async function RequestDetail({ params }: Props) {
                         />
                     </div>
                 )}
+                <iframe
+                    src="/maps.html"
+                    width="100%"
+                    height="500px"
+                    className="rounded-lg"
+                ></iframe>
             </div>
         </DashboardLayout>
     );
