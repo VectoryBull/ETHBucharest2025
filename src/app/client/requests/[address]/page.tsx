@@ -4,6 +4,7 @@ import { apiService } from "@/services/api";
 import UpdateRequestButton from "@/components/UpdateRequestButton";
 import ContainerVisualization from '@/components/ContainerVisualization';
 import SensorTimeline from '@/components/SensorTimeline';
+import { NETWORKS } from "@/config/networks";
 
 interface Props {
     params: Promise<{ address: string }>;
@@ -44,6 +45,29 @@ export default async function RequestDetail({ params }: Props) {
                         }`}>
                         {request.status}
                     </span>
+                </div>
+
+                <div className="flex items-center gap-4 mb-6">
+                    <a
+                        href={`${NETWORKS.ARBITRUM_SEPOLIA.explorer}/address/${address}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-gray-400 hover:text-indigo-300 bg-gray-800/50 px-3 py-2 rounded-lg transition-colors group"
+                    >
+                        <span className="font-mono">{address}</span>
+                        <div className="flex items-center gap-1 text-indigo-400 group-hover:text-indigo-300">
+                            <span>View on Block Explorer</span>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                            >
+                                <path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clipRule="evenodd" />
+                                <path fillRule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                    </a>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">

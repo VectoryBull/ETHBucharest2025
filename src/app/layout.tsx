@@ -27,6 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script src="https://staging.faq-bot.xyz/chat.js?username=Vector&amp;api_key=fb22fe97-e91e-4c9b-a445-1bed97aadaa7&amp;expanded=0&amp;version=0.001"></script>
         {children}
       </body>
     </html>

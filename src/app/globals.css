@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -24,3 +25,21 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.aveo-info-1 {
+  color: #000;
+}
+.aveo-wrapper-left{
+  color: #000;
+}
+.aveo-message-input{
+  color: #000;
+}
+.aveo-footer span {
+  color: #000;
+}
+
+
+
+
+
